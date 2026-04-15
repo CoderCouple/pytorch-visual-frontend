@@ -60,7 +60,7 @@ export function AnimationControls({
       <div className="flex items-center gap-3 ml-auto">
         <span className="text-xs text-muted-foreground whitespace-nowrap">Speed</span>
         <div className="flex items-center gap-1">
-          {[0.5, 1, 1.5, 2, 3].map((s) => (
+          {[0.25, 0.5, 1, 1.5, 2, 3].map((s) => (
             <button
               key={s}
               onClick={() => onSpeedChange(s)}
