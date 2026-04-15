@@ -10,9 +10,11 @@ interface MathOpVizProps {
   steps: OperationStep[];
   currentStep: number;
   speed?: number;
+  operator?: string;
+  label?: string;
 }
 
-export function MathOpViz({ steps, currentStep, speed = 1 }: MathOpVizProps) {
+export function MathOpViz({ steps, currentStep, speed = 1, operator = "+", label = "Add" }: MathOpVizProps) {
   const [activeCell, setActiveCell] = useState(-1);
 
   const inputA = steps[0]?.output as { data: number[][]; shape: number[] } | undefined;
@@ -76,7 +78,7 @@ export function MathOpViz({ steps, currentStep, speed = 1 }: MathOpVizProps) {
           animate={{ opacity: currentStep >= 1 ? 1 : 0, scale: currentStep >= 1 ? 1 : 0 }}
           className="text-3xl font-bold text-[#EE4C2C] mx-2"
         >
-          +
+          {operator}
         </motion.div>
 
         {/* Input B */}
@@ -98,7 +100,7 @@ export function MathOpViz({ steps, currentStep, speed = 1 }: MathOpVizProps) {
         )}
 
         {/* Arrow */}
-        <OperationArrow label="Add" visible={currentStep >= steps.length - 1} />
+        <OperationArrow label={label} visible={currentStep >= steps.length - 1} />
 
         {/* Result */}
         {currentStep >= steps.length - 1 && result && (
@@ -129,14 +131,14 @@ export function MathOpViz({ steps, currentStep, speed = 1 }: MathOpVizProps) {
         >
           <div className="font-mono text-lg">
             <span className="text-blue-600">{aFlat[activeACell]}</span>
-            {" + "}
+            {` ${operator} `}
             <span className="text-emerald-600">{bFlat[activeACell]}</span>
             {" = "}
             <span className="font-bold text-[#EE4C2C]">{rFlat[activeACell]}</span>
           </div>
           <div className="text-xs text-muted-foreground mt-1 font-mono">
             a[{Math.floor(activeACell / (inputA.shape[1] || 1))},{activeACell % (inputA.shape[1] || 1)}]
-            {" + "}
+            {` ${operator} `}
             b[{Math.floor(activeACell / (inputB.shape[1] || 1))},{activeACell % (inputB.shape[1] || 1)}]
           </div>
         </motion.div>

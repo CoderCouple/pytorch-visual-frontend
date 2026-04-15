@@ -12,10 +12,23 @@ import { MathOpViz } from "@/components/visualizations/math-op-viz";
 import { MatmulViz } from "@/components/visualizations/matmul-viz";
 import { ReshapeViz } from "@/components/visualizations/reshape-viz";
 import { ActivationViz } from "@/components/visualizations/activation-viz";
+import { ReductionViz } from "@/components/visualizations/reduction-viz";
+import { PermuteViz } from "@/components/visualizations/permute-viz";
+import { AutogradViz } from "@/components/visualizations/autograd-viz";
+import { SoftmaxViz } from "@/components/visualizations/softmax-viz";
+import { LossViz } from "@/components/visualizations/loss-viz";
+import { LinearViz } from "@/components/visualizations/linear-viz";
+import { ConvViz } from "@/components/visualizations/conv-viz";
+import { OptimizerViz } from "@/components/visualizations/optimizer-viz";
 import { Badge } from "@/components/ui/badge";
 
 // Operations that have specialized step-by-step backend handlers
-const STRUCTURED_OPS = new Set(["add", "matmul", "reshape", "relu"]);
+const STRUCTURED_OPS = new Set([
+  "add", "matmul", "reshape", "relu",
+  "view", "mul", "sum", "mean", "permute",
+  "autograd", "linear", "conv2d", "softmax",
+  "cross_entropy", "mse_loss", "optimizer",
+]);
 
 interface OperationViewProps {
   operation: OperationMeta;
@@ -102,6 +115,9 @@ export function OperationView({ operation }: OperationViewProps) {
       const s = structuredResult.steps;
       switch (operation.vizType) {
         case "math-op":
+          if (operation.id === "mul") {
+            return <MathOpViz steps={s} currentStep={currentStep} speed={speed} operator="×" label="Multiply" />;
+          }
           return <MathOpViz steps={s} currentStep={currentStep} speed={speed} />;
         case "matmul":
           return <MatmulViz steps={s} currentStep={currentStep} speed={speed} />;
@@ -109,6 +125,22 @@ export function OperationView({ operation }: OperationViewProps) {
           return <ReshapeViz steps={s} currentStep={currentStep} speed={speed} />;
         case "activation":
           return <ActivationViz steps={s} currentStep={currentStep} />;
+        case "reduction":
+          return <ReductionViz steps={s} currentStep={currentStep} speed={speed} />;
+        case "permute":
+          return <PermuteViz steps={s} currentStep={currentStep} />;
+        case "autograd":
+          return <AutogradViz steps={s} currentStep={currentStep} />;
+        case "softmax":
+          return <SoftmaxViz steps={s} currentStep={currentStep} />;
+        case "loss":
+          return <LossViz steps={s} currentStep={currentStep} opId={operation.id} />;
+        case "linear":
+          return <LinearViz steps={s} currentStep={currentStep} speed={speed} />;
+        case "conv2d":
+          return <ConvViz steps={s} currentStep={currentStep} speed={speed} />;
+        case "optimizer":
+          return <OptimizerViz steps={s} currentStep={currentStep} />;
       }
     }
 
@@ -196,6 +228,14 @@ function extractParamsFromTensors(
         b: b?.data || result?.data || [[10, 20], [30, 40]],
       };
     }
+    case "mul": {
+      const a = entries.find(([n]) => n === "a")?.[1];
+      const b = entries.find(([n]) => n === "b")?.[1];
+      return {
+        a: a?.data || [[1, 2], [3, 4]],
+        b: b?.data || [[10, 20], [30, 40]],
+      };
+    }
     case "matmul": {
       const a = entries.find(([n]) => n === "a")?.[1];
       const b = entries.find(([n]) => n === "b")?.[1];
@@ -212,9 +252,73 @@ function extractParamsFromTensors(
         new_shape: reshaped?.shape || [3, 2],
       };
     }
+    case "view": {
+      const original = entries.find(([n]) => n === "original" || n === "t")?.[1];
+      const viewed = entries.find(([n]) => n === "viewed" || n === "result")?.[1];
+      return {
+        data: original?.data || [[1, 2, 3], [4, 5, 6]],
+        new_shape: viewed?.shape || [3, 2],
+      };
+    }
+    case "permute": {
+      const t = entries.find(([n]) => n === "t" || n === "original")?.[1];
+      return {
+        data: t?.data || [[[1, 2], [3, 4], [5, 6]]],
+        dims: [2, 0, 1],
+      };
+    }
     case "relu": {
       const x = entries.find(([n]) => n === "x")?.[1];
       return { data: x?.data || [[-3, -2, -1, 0, 1, 2, 3]] };
+    }
+    case "sum": {
+      const t = entries.find(([n]) => n === "t" || n === "x")?.[1];
+      return { data: t?.data || [[1, 2, 3], [4, 5, 6]], dim: 1 };
+    }
+    case "mean": {
+      const t = entries.find(([n]) => n === "t" || n === "x")?.[1];
+      return { data: t?.data || [[1, 2, 3], [4, 5, 6]], dim: 1 };
+    }
+    case "autograd": {
+      const x = entries.find(([n]) => n === "x")?.[1];
+      return { x: x?.data || [1.0, 2.0, 3.0] };
+    }
+    case "linear": {
+      const x = entries.find(([n]) => n === "x")?.[1];
+      return {
+        input: x?.data || [1.0, 2.0, 3.0],
+        in_features: x?.shape?.[x.shape.length - 1] || 3,
+        out_features: 2,
+      };
+    }
+    case "conv2d": {
+      return {
+        input: [[1, 2, 3, 0], [4, 5, 6, 1], [7, 8, 9, 2], [0, 1, 2, 3]],
+        kernel: [[1, 0], [0, -1]],
+      };
+    }
+    case "softmax": {
+      const x = entries.find(([n]) => n === "logits" || n === "x")?.[1];
+      return { data: x?.data || [2.0, 1.0, 0.1] };
+    }
+    case "cross_entropy": {
+      const logits = entries.find(([n]) => n === "logits")?.[1];
+      const target = entries.find(([n]) => n === "target")?.[1];
+      return {
+        logits: logits?.data || [2.0, 1.0, 0.1],
+        target: target?.data != null ? (Array.isArray(target.data) ? target.data[0] : target.data) : 0,
+      };
+    }
+    case "mse_loss": {
+      const pred = entries.find(([n]) => n === "predictions" || n === "pred")?.[1];
+      const tgt = entries.find(([n]) => n === "targets" || n === "target")?.[1];
+      return {
+        predictions: pred?.data || [2.5, 0.5, 2.1, 7.8],
+        targets: tgt?.data || [3.0, -0.5, 2.0, 7.5],
+      };
+    }
+    case "optimizer": {
+      return { lr: 0.1, num_steps: 5, optimizer: "SGD" };
     }
     default:
       return {};
