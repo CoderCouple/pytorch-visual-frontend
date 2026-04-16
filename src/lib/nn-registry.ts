@@ -34,10 +34,10 @@ print("after activation:", y)`,
     category: "Basics",
     categorySlug: "basics",
     description:
-      "The dot product multiplies two vectors element-wise and sums the results into a single number. It is the core computation inside every neuron and matrix multiplication.",
-    formula: "a \\cdot b = \\sum_{i} a_i \\, b_i",
+      "np.dot handles three cases: vector·vector → scalar (single neuron), matrix·vector → vector (layer output), and matrix·matrix → matrix (batch processing). It is the core operation behind every neural network layer.",
+    formula: "z = W \\cdot x + b",
     formulaExplanation:
-      "Multiply each pair of corresponding elements from vectors a and b, then add all the products together to get a single scalar.",
+      "Multiply weight matrix W by input x using dot product, then add bias b. For vectors this is element-wise multiply and sum; for matrices each row dots with the input.",
     code: `import numpy as np
 
 a = np.array([1.0, 2.0, 3.0])
