@@ -123,8 +123,8 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       <td key={j} style={{ padding: 0 }}>
                         <motion.div
                           animate={{
-                            backgroundColor: isHighlighted ? "#dbeafe" : "#f8fafc",
-                            borderColor: isHighlighted ? "#3b82f6" : "#e2e8f0",
+                            backgroundColor: isHighlighted ? "#dbeafe" : "var(--viz-bg)",
+                            borderColor: isHighlighted ? "#3b82f6" : "var(--viz-border-light)",
                             borderWidth: isHighlighted ? 2 : 1,
                             scale: isHighlighted ? 1.05 : 1,
                           }}
@@ -158,8 +158,8 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       <td key={j} style={{ padding: 0 }}>
                         <motion.div
                           animate={{
-                            backgroundColor: isHighlighted ? "#dcfce7" : "#f8fafc",
-                            borderColor: isHighlighted ? "#22c55e" : "#e2e8f0",
+                            backgroundColor: isHighlighted ? "#dcfce7" : "var(--viz-bg)",
+                            borderColor: isHighlighted ? "#22c55e" : "var(--viz-border-light)",
                             borderWidth: isHighlighted ? 2 : 1,
                             scale: isHighlighted ? 1.05 : 1,
                           }}
@@ -196,8 +196,8 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       <td key={j} style={{ padding: 0 }}>
                         <motion.div
                           animate={{
-                            backgroundColor: isActive ? "#fef2f2" : isDone ? "#f0fdf4" : "#f8fafc",
-                            borderColor: isActive ? "#EE4C2C" : isDone ? "#86efac" : "#e2e8f0",
+                            backgroundColor: isActive ? "var(--viz-bg-highlight)" : isDone ? "#f0fdf4" : "var(--viz-bg)",
+                            borderColor: isActive ? "#EE4C2C" : isDone ? "#86efac" : "var(--viz-border-light)",
                             borderWidth: isActive ? 3 : 1,
                           }}
                           transition={{ duration: 0.2 }}
@@ -209,12 +209,12 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                               key={`val-${completed.get(key)}`}
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
-                              className={isActive ? "font-bold text-[#EE4C2C]" : "text-emerald-700 font-medium"}
+                              className={isActive ? "font-bold text-[#EE4C2C]" : "text-emerald-700 dark:text-emerald-400 font-medium"}
                             >
                               {completed.get(key)}
                             </motion.span>
                           ) : (
-                            <span className="text-slate-300 text-xs">—</span>
+                            <span className="text-slate-300 dark:text-slate-600 text-xs">—</span>
                           )}
                         </motion.div>
                       </td>
@@ -235,7 +235,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mx-auto max-w-2xl rounded-xl border-2 border-[#EE4C2C]/20 bg-gradient-to-b from-red-50 to-white p-5 space-y-4"
+            className="mx-auto max-w-2xl rounded-xl border-2 border-[#EE4C2C]/20 bg-gradient-to-b from-red-50 to-white dark:from-red-950 dark:to-card p-5 space-y-4"
           >
             {/* Target label */}
             <div className="text-center text-sm font-medium text-muted-foreground">
@@ -257,7 +257,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       initial={{ opacity: 0, x: -20, scale: 0.5 }}
                       animate={{ opacity: 1, x: 0, scale: 1 }}
                       transition={{ delay: k * 0.08, type: "spring", stiffness: 200 }}
-                      className="w-10 h-10 flex items-center justify-center rounded-md bg-blue-100 border-2 border-blue-300 font-mono font-bold text-blue-700"
+                      className="w-10 h-10 flex items-center justify-center rounded-md bg-blue-100 dark:bg-blue-950 border-2 border-blue-300 dark:border-blue-700 font-mono font-bold text-blue-700 dark:text-blue-300"
                     >
                       {v}
                     </motion.div>
@@ -276,7 +276,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       initial={{ opacity: 0, x: 20, scale: 0.5 }}
                       animate={{ opacity: 1, x: 0, scale: 1 }}
                       transition={{ delay: k * 0.08, type: "spring", stiffness: 200 }}
-                      className="w-10 h-10 flex items-center justify-center rounded-md bg-emerald-100 border-2 border-emerald-300 font-mono font-bold text-emerald-700"
+                      className="w-10 h-10 flex items-center justify-center rounded-md bg-emerald-100 dark:bg-emerald-950 border-2 border-emerald-300 dark:border-emerald-700 font-mono font-bold text-emerald-700 dark:text-emerald-300"
                     >
                       {v}
                     </motion.div>
@@ -309,7 +309,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: k * 0.1 + 0.08 }}
-                      className="font-mono font-bold text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded"
+                      className="font-mono font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950 px-1.5 py-0.5 rounded"
                     >
                       {currentDot.products[k]}
                     </motion.span>
@@ -365,7 +365,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                   ? "bg-emerald-400"
                   : idx === activeDot
                     ? "bg-[#EE4C2C] animate-pulse"
-                    : "bg-slate-200"
+                    : "bg-slate-200 dark:bg-slate-700"
               }`}
             />
           ))}

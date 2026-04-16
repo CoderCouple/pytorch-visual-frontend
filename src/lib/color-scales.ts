@@ -1,5 +1,12 @@
 import * as d3 from "d3";
 
+function getVizBgWhite(): string {
+  if (typeof window === "undefined") return "#ffffff";
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue("--viz-bg-white")
+    .trim() || "#ffffff";
+}
+
 export function getTensorColorScale(values: number[]) {
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -8,7 +15,7 @@ export function getTensorColorScale(values: number[]) {
   return d3
     .scaleLinear<string>()
     .domain([-absMax, 0, absMax])
-    .range(["#3b82f6", "#ffffff", "#ef4444"])
+    .range(["#3b82f6", getVizBgWhite(), "#ef4444"])
     .clamp(true);
 }
 

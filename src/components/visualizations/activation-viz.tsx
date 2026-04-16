@@ -55,9 +55,9 @@ export function ActivationViz({ steps, currentStep }: ActivationVizProps) {
 
     // Zero lines
     g.append("line").attr("x1", 0).attr("x2", w).attr("y1", yScale(0)).attr("y2", yScale(0))
-      .attr("stroke", "#ddd").attr("stroke-dasharray", "4");
+      .attr("stroke", "var(--viz-border-light)").attr("stroke-dasharray", "4");
     g.append("line").attr("x1", xScale(0)).attr("x2", xScale(0)).attr("y1", 0).attr("y2", h)
-      .attr("stroke", "#ddd").attr("stroke-dasharray", "4");
+      .attr("stroke", "var(--viz-border-light)").attr("stroke-dasharray", "4");
 
     // Curve
     const line = d3.line<number>()
@@ -113,7 +113,7 @@ export function ActivationViz({ steps, currentStep }: ActivationVizProps) {
           .attr("x2", xScale(xVal))
           .attr("y1", yScale(0))
           .attr("y2", yScale(0))
-          .attr("stroke", "#94a3b8")
+          .attr("stroke", "var(--viz-text-subtle)")
           .attr("stroke-dasharray", "2")
           .transition()
           .delay(900 + i * 100 + 100)
@@ -137,7 +137,7 @@ export function ActivationViz({ steps, currentStep }: ActivationVizProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: currentStep >= 1 ? 1 : 0 }}
-          className="rounded-lg border bg-white p-2"
+          className="rounded-lg border bg-card p-2"
         >
           <svg ref={svgRef} />
         </motion.div>

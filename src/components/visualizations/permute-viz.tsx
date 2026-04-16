@@ -68,7 +68,7 @@ export function PermuteViz({ steps, currentStep }: PermuteVizProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: newDim * 0.15 }}
-                className="flex flex-col items-center gap-1 rounded-lg border-2 border-[#EE4C2C]/30 bg-red-50 px-4 py-2"
+                className="flex flex-col items-center gap-1 rounded-lg border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 px-4 py-2"
               >
                 <div className="text-xs text-muted-foreground">dim {newDim}</div>
                 <div className="font-mono text-sm font-bold text-[#EE4C2C]">

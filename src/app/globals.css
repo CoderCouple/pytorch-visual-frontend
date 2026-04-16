@@ -49,6 +49,12 @@
 }
 
 :root {
+  --viz-bg: #f8fafc;
+  --viz-bg-highlight: #fef2f2;
+  --viz-bg-active: #fde8e8;
+  --viz-bg-white: #ffffff;
+  --viz-border-light: #e2e8f0;
+  --viz-text-subtle: #64748b;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -84,6 +90,12 @@
 }
 
 .dark {
+  --viz-bg: #1e293b;
+  --viz-bg-highlight: #451a03;
+  --viz-bg-active: #7f1d1d;
+  --viz-bg-white: #1e293b;
+  --viz-border-light: #334155;
+  --viz-text-subtle: #94a3b8;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

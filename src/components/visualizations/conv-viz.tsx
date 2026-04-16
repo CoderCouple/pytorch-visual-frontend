@@ -120,7 +120,7 @@ export function ConvViz({ steps, currentStep, speed = 1 }: ConvVizProps) {
           key={activeWindow}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto max-w-md rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 p-4"
+          className="mx-auto max-w-md rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 p-4"
         >
           <div className="text-xs text-muted-foreground mb-2 text-center">
             Position [{activeWin.row}, {activeWin.col}]
@@ -131,7 +131,7 @@ export function ConvViz({ steps, currentStep, speed = 1 }: ConvVizProps) {
               <div className="text-[10px] text-muted-foreground mb-1">Patch</div>
               <div className="inline-grid gap-0.5" style={{ gridTemplateColumns: `repeat(${activeWin.patch[0]?.length || 1}, 1fr)` }}>
                 {activeWin.patch.flat().map((v, i) => (
-                  <div key={i} className="w-8 h-8 rounded-sm border bg-blue-50 border-blue-200 flex items-center justify-center text-xs font-mono">
+                  <div key={i} className="w-8 h-8 rounded-sm border bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 flex items-center justify-center text-xs font-mono">
                     {Number.isInteger(v) ? v : v.toFixed(1)}
                   </div>
                 ))}
@@ -145,7 +145,7 @@ export function ConvViz({ steps, currentStep, speed = 1 }: ConvVizProps) {
               <div className="text-[10px] text-muted-foreground mb-1">Kernel</div>
               <div className="inline-grid gap-0.5" style={{ gridTemplateColumns: `repeat(${kernelStep?.shape[1] || 1}, 1fr)` }}>
                 {(kernelStep?.data as number[][])?.flat().map((v, i) => (
-                  <div key={i} className="w-8 h-8 rounded-sm border bg-emerald-50 border-emerald-200 flex items-center justify-center text-xs font-mono">
+                  <div key={i} className="w-8 h-8 rounded-sm border bg-emerald-50 dark:bg-emerald-950 border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-xs font-mono">
                     {Number.isInteger(v) ? v : v.toFixed(1)}
                   </div>
                 ))}
@@ -157,7 +157,7 @@ export function ConvViz({ steps, currentStep, speed = 1 }: ConvVizProps) {
             {/* Sum */}
             <div className="text-center">
               <div className="text-[10px] text-muted-foreground mb-1">Sum</div>
-              <div className="w-10 h-10 rounded-lg border-2 border-[#EE4C2C] bg-white flex items-center justify-center font-mono font-bold text-[#EE4C2C]">
+              <div className="w-10 h-10 rounded-lg border-2 border-[#EE4C2C] bg-card flex items-center justify-center font-mono font-bold text-[#EE4C2C]">
                 {activeWin.sum}
               </div>
             </div>

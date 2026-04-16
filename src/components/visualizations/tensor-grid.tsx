@@ -330,9 +330,9 @@ function Cell({
 
 function DimBadge({ ndim }: { ndim: number }) {
   const colors: Record<number, string> = {
-    1: "bg-emerald-100 text-emerald-700 border-emerald-300",
-    2: "bg-blue-100 text-blue-700 border-blue-300",
-    3: "bg-purple-100 text-purple-700 border-purple-300",
+    1: "bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-700",
+    2: "bg-blue-100 text-blue-700 border-blue-300 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-700",
+    3: "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-700",
   };
   return (
     <span

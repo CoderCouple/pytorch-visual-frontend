@@ -136,7 +136,7 @@ export function AutogradViz({ steps, currentStep }: AutogradVizProps) {
                   width={110}
                   height={70}
                   rx={12}
-                  fill={showBackward && node.id === "x" ? "#fff7ed" : "#eff6ff"}
+                  fill={showBackward && node.id === "x" ? "var(--viz-bg-highlight)" : "var(--viz-bg)"}
                   stroke={showBackward && node.id === "x" ? "#f97316" : "#3b82f6"}
                   strokeWidth={2}
                 />
@@ -146,7 +146,7 @@ export function AutogradViz({ steps, currentStep }: AutogradVizProps) {
                   textAnchor="middle"
                   fontSize={13}
                   fontWeight="bold"
-                  fill="#1e293b"
+                  fill="currentColor"
                 >
                   {node.label}
                 </text>
@@ -155,7 +155,7 @@ export function AutogradViz({ steps, currentStep }: AutogradVizProps) {
                   y={pos.y + 8}
                   textAnchor="middle"
                   fontSize={11}
-                  fill="#64748b"
+                  fill="var(--viz-text-subtle)"
                   fontFamily="monospace"
                 >
                   [{node.values.map((v) => v.toFixed(1)).join(", ")}]

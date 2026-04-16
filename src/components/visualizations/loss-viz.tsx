@@ -102,7 +102,7 @@ function CrossEntropyViz({ steps, currentStep }: { steps: OperationStep[]; curre
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mx-auto max-w-sm rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 p-4 text-center"
+          className="mx-auto max-w-sm rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 p-4 text-center"
         >
           <div className="text-xs text-muted-foreground mb-1">Cross-Entropy Loss</div>
           <div className="font-mono text-lg">
@@ -190,7 +190,7 @@ function MSEViz({ steps, currentStep }: { steps: OperationStep[]; currentStep: n
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: el.index * 0.1 }}
-                className="rounded-lg border px-3 py-2 text-center bg-amber-50 border-amber-200"
+                className="rounded-lg border px-3 py-2 text-center bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800"
               >
                 <div className="text-[10px] text-muted-foreground">[{el.index}]</div>
                 <div className="font-mono text-xs">
@@ -210,7 +210,7 @@ function MSEViz({ steps, currentStep }: { steps: OperationStep[]; currentStep: n
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mx-auto max-w-sm rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 p-4 text-center"
+          className="mx-auto max-w-sm rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 p-4 text-center"
         >
           <div className="text-xs text-muted-foreground mb-1">Mean Squared Error</div>
           <div className="font-mono text-lg font-bold text-[#EE4C2C]">

@@ -119,7 +119,7 @@ export function LinearViz({ steps, currentStep, speed = 1 }: LinearVizProps) {
           key={activeDot}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto max-w-lg rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 p-4"
+          className="mx-auto max-w-lg rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 p-4"
         >
           <div className="text-xs text-muted-foreground mb-2 text-center">
             Output neuron {activeInter.output_idx}

@@ -114,10 +114,10 @@ export function ReshapeViz({ steps, currentStep, speed = 1 }: ReshapeVizProps) {
                   style={{
                     width: 32,
                     height: 28,
-                    backgroundColor: inGroup ? "#fef2f2" : "#f8fafc",
-                    borderColor: inGroup ? "#EE4C2C" : "#e2e8f0",
+                    backgroundColor: inGroup ? "var(--viz-bg-highlight)" : "var(--viz-bg)",
+                    borderColor: inGroup ? "#EE4C2C" : "var(--viz-border-light)",
                     borderWidth: inGroup ? 2 : 1,
-                    color: inGroup ? "#EE4C2C" : "#64748b",
+                    color: inGroup ? "#EE4C2C" : "var(--viz-text-subtle)",
                     fontWeight: inGroup ? 600 : 400,
                   }}
                 >

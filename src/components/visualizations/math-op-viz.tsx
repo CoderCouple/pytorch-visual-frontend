@@ -127,7 +127,7 @@ export function MathOpViz({ steps, currentStep, speed = 1, operator = "+", label
           key={activeACell}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto max-w-md rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 p-4 text-center"
+          className="mx-auto max-w-md rounded-xl border-2 border-[#EE4C2C]/30 bg-red-50 dark:bg-red-950 p-4 text-center"
         >
           <div className="font-mono text-lg">
             <span className="text-blue-600">{aFlat[activeACell]}</span>

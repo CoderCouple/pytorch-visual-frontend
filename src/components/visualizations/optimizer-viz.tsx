@@ -63,7 +63,7 @@ export function OptimizerViz({ steps, currentStep }: OptimizerVizProps) {
       .attr("y", h + 35)
       .attr("text-anchor", "middle")
       .attr("font-size", "12px")
-      .attr("fill", "#64748b")
+      .attr("fill", "var(--viz-text-subtle)")
       .text("w");
     g.append("text")
       .attr("transform", "rotate(-90)")
@@ -71,7 +71,7 @@ export function OptimizerViz({ steps, currentStep }: OptimizerVizProps) {
       .attr("y", -38)
       .attr("text-anchor", "middle")
       .attr("font-size", "12px")
-      .attr("fill", "#64748b")
+      .attr("fill", "var(--viz-text-subtle)")
       .text("loss");
 
     // Loss curve
@@ -156,7 +156,7 @@ export function OptimizerViz({ steps, currentStep }: OptimizerVizProps) {
           .attr("y", yScale(pt.loss) - 10)
           .attr("text-anchor", "middle")
           .attr("font-size", "9px")
-          .attr("fill", "#64748b")
+          .attr("fill", "var(--viz-text-subtle)")
           .attr("opacity", 0)
           .text(`s${pt.step}`)
           .transition()
@@ -206,7 +206,7 @@ export function OptimizerViz({ steps, currentStep }: OptimizerVizProps) {
 
       {/* SVG chart */}
       <div className="flex justify-center">
-        <div className="rounded-lg border bg-white p-2">
+        <div className="rounded-lg border bg-card p-2">
           <svg ref={svgRef} />
         </div>
       </div>

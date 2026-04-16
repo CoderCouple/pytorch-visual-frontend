@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { OPERATIONS, CATEGORIES } from "@/lib/operations-registry";
-import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { OperationView } from "@/components/operations/operation-view";
 
 interface PageProps {
@@ -17,12 +16,6 @@ export default async function OperationPage({ params }: PageProps) {
 
   return (
     <div>
-      <Breadcrumb
-        items={[
-          { label: cat?.name || category, href: "/" },
-          { label: op.name },
-        ]}
-      />
       <OperationView operation={op} />
     </div>
   );

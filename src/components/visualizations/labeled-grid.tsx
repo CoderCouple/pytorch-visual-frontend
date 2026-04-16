@@ -174,11 +174,12 @@ function GridTable({
                         stiffness: 300,
                         damping: 22,
                       }}
-                      className="flex items-center justify-center border border-slate-200 bg-slate-50 font-serif select-none"
+                      className="flex items-center justify-center border font-serif select-none"
                       style={{
                         width: cellSize,
                         height: cellSize,
                         fontSize: cellSize <= 48 ? "0.8rem" : "0.95rem",
+                        borderColor: "var(--viz-border-light)",
                         // Pink group border
                         borderTopColor: groupTop ? "#EE4C2C" : undefined,
                         borderBottomColor: groupBottom ? "#EE4C2C" : undefined,
@@ -189,10 +190,10 @@ function GridTable({
                         borderLeftWidth: groupLeft ? 3 : undefined,
                         borderRightWidth: groupRight ? 3 : undefined,
                         backgroundColor: isActive
-                          ? "#fde8e8"
+                          ? "var(--viz-bg-active)"
                           : inGroup
-                            ? "#fef2f2"
-                            : "#f8fafc",
+                            ? "var(--viz-bg-highlight)"
+                            : "var(--viz-bg)",
                       }}
                     >
                       {showValues ? (
