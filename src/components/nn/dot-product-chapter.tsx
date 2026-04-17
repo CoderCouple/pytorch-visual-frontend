@@ -650,7 +650,7 @@ export function DotProductChapter() {
       {/* Header */}
       <motion.div {...fadeUp}>
         <div className="flex items-center gap-3 mb-3">
-          <h1 className="text-3xl font-bold">The Dot Product</h1>
+          <h1 className="text-3xl font-bold">Dot Product Application</h1>
           <Badge variant="secondary">NN from Scratch</Badge>
         </div>
         <p className="text-lg text-muted-foreground max-w-2xl">

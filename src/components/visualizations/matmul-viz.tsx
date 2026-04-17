@@ -8,6 +8,7 @@ interface MatmulVizProps {
   steps: OperationStep[];
   currentStep: number;
   speed: number;
+  label?: string;
 }
 
 interface DotProduct {
@@ -23,7 +24,15 @@ interface DotProduct {
 type SubPhase = "extract" | "multiply" | "sum" | "done";
 const SUB_PHASES: SubPhase[] = ["extract", "multiply", "sum", "done"];
 
-export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
+/** Format a number to avoid long decimals like 0.30000000447034836 */
+function fmt(v: number): string {
+  if (Number.isInteger(v)) return String(v);
+  // Round to 2 decimal places, strip trailing zeros
+  const r = parseFloat(v.toFixed(2));
+  return String(r);
+}
+
+export function MatmulViz({ steps, currentStep, speed, label }: MatmulVizProps) {
   const [activeDot, setActiveDot] = useState(-1);
   const [subPhase, setSubPhase] = useState<SubPhase>("extract");
   const [allDone, setAllDone] = useState(false);
@@ -108,6 +117,14 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
 
   return (
     <div className="space-y-5">
+      {/* np.dot label */}
+      {label && (
+        <div className="text-center">
+          <span className="inline-block font-mono text-lg font-bold px-3 py-1 rounded-md bg-muted">
+            {label}
+          </span>
+        </div>
+      )}
       {/* Matrices row */}
       <div className="flex flex-wrap items-start justify-center gap-6">
         {/* Matrix A */}
@@ -132,7 +149,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                           className="flex items-center justify-center border font-mono text-sm select-none"
                           style={{ width: cs, height: cs }}
                         >
-                          {val}
+                          {fmt(val)}
                         </motion.div>
                       </td>
                     );
@@ -167,7 +184,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                           className="flex items-center justify-center border font-mono text-sm select-none"
                           style={{ width: cs, height: cs }}
                         >
-                          {val}
+                          {fmt(val)}
                         </motion.div>
                       </td>
                     );
@@ -211,7 +228,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                               animate={{ scale: 1 }}
                               className={isActive ? "font-bold text-[#EE4C2C]" : "text-emerald-700 dark:text-emerald-400 font-medium"}
                             >
-                              {completed.get(key)}
+                              {fmt(completed.get(key)!)}
                             </motion.span>
                           ) : (
                             <span className="text-slate-300 dark:text-slate-600 text-xs">—</span>
@@ -259,7 +276,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       transition={{ delay: k * 0.08, type: "spring", stiffness: 200 }}
                       className="w-10 h-10 flex items-center justify-center rounded-md bg-blue-100 dark:bg-blue-950 border-2 border-blue-300 dark:border-blue-700 font-mono font-bold text-blue-700 dark:text-blue-300"
                     >
-                      {v}
+                      {fmt(v)}
                     </motion.div>
                   ))}
                 </div>
@@ -278,7 +295,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       transition={{ delay: k * 0.08, type: "spring", stiffness: 200 }}
                       className="w-10 h-10 flex items-center justify-center rounded-md bg-emerald-100 dark:bg-emerald-950 border-2 border-emerald-300 dark:border-emerald-700 font-mono font-bold text-emerald-700 dark:text-emerald-300"
                     >
-                      {v}
+                      {fmt(v)}
                     </motion.div>
                   ))}
                 </div>
@@ -301,9 +318,9 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                     className="flex items-center gap-1"
                   >
                     {k > 0 && <span className="text-muted-foreground font-bold mx-1">+</span>}
-                    <span className="font-mono text-blue-600">{v}</span>
+                    <span className="font-mono text-blue-600">{fmt(v)}</span>
                     <span className="text-muted-foreground">×</span>
-                    <span className="font-mono text-emerald-600">{currentDot.col_values[k]}</span>
+                    <span className="font-mono text-emerald-600">{fmt(currentDot.col_values[k])}</span>
                     <span className="text-muted-foreground">=</span>
                     <motion.span
                       initial={{ scale: 0 }}
@@ -311,7 +328,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                       transition={{ delay: k * 0.1 + 0.08 }}
                       className="font-mono font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950 px-1.5 py-0.5 rounded"
                     >
-                      {currentDot.products[k]}
+                      {fmt(currentDot.products[k])}
                     </motion.span>
                   </motion.div>
                 ))}
@@ -329,7 +346,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                   {currentDot.products.map((p, k) => (
                     <span key={k} className="flex items-center gap-1">
                       {k > 0 && <span className="text-muted-foreground">+</span>}
-                      <span className="text-orange-600 font-medium">{p}</span>
+                      <span className="text-orange-600 font-medium">{fmt(p)}</span>
                     </span>
                   ))}
                 </div>
@@ -341,7 +358,7 @@ export function MatmulViz({ steps, currentStep, speed }: MatmulVizProps) {
                 >
                   <span className="text-muted-foreground font-bold">=</span>
                   <span className="inline-flex items-center justify-center min-w-[40px] h-10 rounded-lg bg-[#EE4C2C] text-white font-mono font-bold text-lg px-3">
-                    {currentDot.sum}
+                    {fmt(currentDot.sum)}
                   </span>
                   <span className="text-xs text-muted-foreground">
                     → C[{currentDot.row},{currentDot.col}]

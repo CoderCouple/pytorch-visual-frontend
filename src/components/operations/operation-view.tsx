@@ -28,7 +28,22 @@ const STRUCTURED_OPS = new Set([
   "view", "mul", "sum", "mean", "permute",
   "autograd", "linear", "conv2d", "softmax",
   "cross_entropy", "mse_loss", "optimizer",
+  "dot-product-intro", "dot-product-layer", "dot-product-batch",
 ]);
+
+// Map dot-product chapter IDs to their np.dot label
+const MATMUL_LABEL_MAP: Record<string, string> = {
+  "dot-product-intro": "np.dot(w, x)",
+  "dot-product-layer": "np.dot(W, x)",
+  "dot-product-batch": "np.dot(X, W.T)",
+};
+
+// Map chapter IDs to their backend operation handler
+const BACKEND_OP_MAP: Record<string, string> = {
+  "dot-product-intro": "matmul",
+  "dot-product-layer": "matmul",
+  "dot-product-batch": "matmul",
+};
 
 interface OperationViewProps {
   operation: OperationMeta;
@@ -87,8 +102,9 @@ export function OperationView({ operation }: OperationViewProps) {
 
       // For structured ops, also run the structured executor with parsed params
       if (isStructured) {
-        const params = extractParamsFromTensors(operation.id, codeRes.tensors);
-        const structRes = await executeOperation(operation.id, params);
+        const backendId = BACKEND_OP_MAP[operation.id] || operation.id;
+        const params = extractParamsFromTensors(backendId, codeRes.tensors);
+        const structRes = await executeOperation(backendId, params);
         setStructuredResult(structRes);
       }
 
@@ -120,7 +136,7 @@ export function OperationView({ operation }: OperationViewProps) {
           }
           return <MathOpViz steps={s} currentStep={currentStep} speed={speed} />;
         case "matmul":
-          return <MatmulViz steps={s} currentStep={currentStep} speed={speed} />;
+          return <MatmulViz steps={s} currentStep={currentStep} speed={speed} label={MATMUL_LABEL_MAP[operation.id]} />;
         case "reshape":
           return <ReshapeViz steps={s} currentStep={currentStep} speed={speed} />;
         case "activation":
@@ -164,7 +180,7 @@ export function OperationView({ operation }: OperationViewProps) {
           <h2 className="text-2xl font-bold font-mono">{operation.name}</h2>
           <Badge variant="secondary">{operation.category}</Badge>
         </div>
-        <p className="text-muted-foreground">{operation.description}</p>
+        <p className="text-muted-foreground whitespace-pre-line">{operation.description}</p>
       </div>
 
       <MathPanel formula={operation.formula} explanation={operation.formulaExplanation} />
